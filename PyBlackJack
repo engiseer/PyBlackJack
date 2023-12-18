@@ -1,0 +1,166 @@
+import random as random_mod
+from replit import clear
+
+user_hand = []
+cpu_hand = []
+user_score = 0
+cpu_score = 0
+deck = {
+"Hearts":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+"Clubs":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+"Diamonds":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+"Spades":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+}
+
+def calc_score(hand, score):
+  conv_hand = []
+  for card in hand:
+    if card in ["Jack", "Queen", "King"]:
+      conv_hand.append(10)
+    elif card == "Ace":
+      if score >= 11:
+        conv_hand.append(1)
+      elif score < 11:
+        conv_hand.append(11)
+    else:
+      conv_hand.append(int(card))
+  
+  if sum(conv_hand) >= 22:
+    for i in range(len(conv_hand)):
+      if conv_hand[i] == 11:
+        conv_hand[i] = 1
+        continue
+      continue
+  score = sum(conv_hand)
+  return score
+  
+def user_deal_card(deck):
+  random_suit = random_mod.choice(list(deck.keys()))
+  random_card = random_mod.choice(deck[random_suit])
+  #remove from deck
+  deck = deck[random_suit].remove(random_card)
+  #add to hand
+  user_hand.append(random_card)
+
+def cpu_deal_card(deck):
+  random_suit = random_mod.choice(list(deck.keys()))
+  random_card = random_mod.choice(deck[random_suit])
+  #remove from deck
+  deck = deck[random_suit].remove(random_card)
+  #add to hand
+  cpu_hand.append(random_card)
+  
+
+def blackjack():
+  begin_game = True
+  while begin_game is True:
+    if play.lower() == "y":
+      user_deal_card(deck)
+      user_deal_card(deck)
+      cpu_deal_card(deck)
+      cpu_deal_card(deck)
+     
+      new_user_score = calc_score(user_hand, user_score)
+      new_cpu_score = calc_score(cpu_hand, cpu_score)
+      
+      print(f"Your hand is {user_hand}")
+      print(f"Your current score is {new_user_score}")
+      print(f"The House's first card is {cpu_hand[0]}")
+      #print(f"The remaining deck is {deck}")
+      game_over = False
+      
+      while game_over is False:  
+        hit_stay = input("Would you like to hit or stay? H or S\n")
+        
+        if hit_stay.lower() == "h":
+          in_hit = True
+          
+          while in_hit is True:
+            user_deal_card(deck)
+            new_user_score = calc_score(user_hand, user_score)
+            print(f"Your hand is {user_hand}")
+            print(f"Your current score is {new_user_score}")
+        
+            if new_user_score >= 22:
+              print("You lose!")
+              game_over = True
+              in_hit = False
+              begin_game = False
+              continue
+              
+              
+            elif new_user_score <= 21:
+              break
+              
+        elif hit_stay.lower() == "s":
+          #calc cpu score - keeps hitting and stands on 17
+          #compare score
+          #declare winner
+          #end game, prompt new game
+          print("You've chosen to stay")
+          begin_game = False
+          game_over = True
+          in_hit = False
+
+          while new_cpu_score < 17:
+            cpu_deal_card(deck)
+            new_cpu_score = calc_score(cpu_hand, cpu_score)
+
+          print(f"The House's final hand is {cpu_hand}")
+          print(f"The House's score is {new_cpu_score}")
+    
+          if new_cpu_score == new_user_score:
+            print("Tied!")
+            continue
+          elif (new_user_score > new_cpu_score and new_user_score <= 21) or (new_cpu_score > 21):
+            print("You Win!")
+            continue
+          elif new_cpu_score > new_user_score and new_cpu_score <= 21:
+            print("You Lose!")
+            continue
+          continue
+        
+            
+        
+          
+        
+        
+      
+
+
+
+
+print(''' _     _            _    _            _    
+| |   | |          | |  (_)          | |   
+| |__ | | __ _  ___| | ___  __ _  ___| | __
+| '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+| |_) | | (_| | (__|   <| | (_| | (__|   < 
+|_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\
+                       _/ |                
+                      |__/                ''')
+
+is_playing = True
+while is_playing is True:
+  play = input("Would you like to play? Y or N\n")
+  if play.lower() == "y":
+    user_hand = []
+    cpu_hand = []
+    user_score = 0
+    cpu_score = 0
+    deck = {
+    "Hearts":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+    "Clubs":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+    "Diamonds":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+    "Spades":["Ace", 2, 3, 4, 5, 6, 7, 8, 9, "Jack", "Queen", "King"],
+    }
+    clear()
+    blackjack()
+  elif play.lower() == "n":
+    print("Thank you for playing")
+    is_playing = False
+
+
+
+
+#clean up text
+#add in graphics
